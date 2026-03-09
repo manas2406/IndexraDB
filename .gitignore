@@ -1,0 +1,18 @@
+# Mock generator script and its output folder
+generate_commits.py
+mock_app/
+
+# Large test and training datasets
+models/data/generated_*.csv
+models/data/generated_*.json
+
+# Large model data and training checkpoints
+models/results/
+models/results_slots/
+*.onnx.data
+
+# Build directories and Python cache
+build/
+__pycache__/
+*.pyc
+.venv/
