@@ -1,0 +1,12 @@
+text,label
+"show me all users",SELECT
+"find orders above 50",SELECT
+"get products cheaper than 20",SELECT
+"create table items with fields id name",CREATE
+"make a new table called logs",CREATE
+"insert into items values 1 test",INSERT
+"add record to users",INSERT
+"delete from orders where id is 5",DELETE
+"remove user 2",DELETE
+"join users and orders on id",JOIN
+"combine tables a and b",JOIN

@@ -1,0 +1,33 @@
+[
+  {
+    "text": "show me orders above 2000",
+    "slots": {
+      "orders": "TABLE",
+      "above": "OPERATOR",
+      "2000": "VALUE"
+    }
+  },
+  {
+    "text": "create table users with fields name age",
+    "slots": {
+      "users": "TABLE",
+      "name": "FIELD",
+      "age": "FIELD"
+    }
+  },
+  {
+    "text": "insert into products values 1 apple",
+    "slots": {
+      "products": "TABLE",
+      "1": "VALUE",
+      "apple": "VALUE"
+    }
+  },
+  {
+    "text": "find items from last week",
+    "slots": {
+      "items": "TABLE",
+      "last week": "TIME"
+    }
+  }
+]
