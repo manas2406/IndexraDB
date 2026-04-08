@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  llm_server:
+    build:
+      context: .
+      dockerfile: llm_server/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY}
+    # Volumes are useful for development, but not strictly needed for the container itself
+    # if we COPY . . in the Dockerfile.
+
+  db_engine:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - LLM_SERVER_URL=http://llm_server:8000
+    depends_on:
+      - llm_server
+    # Keep stdin open and allocate tty so we can interact with the CLI
+    stdin_open: true
+    tty: true

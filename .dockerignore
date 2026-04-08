@@ -1,0 +1,6 @@
+build/
+llm_server/__pycache__/
+*.onnx
+# wait, we NEED the .onnx models! Let me not ignore them.
+.git/
+.DS_Store
