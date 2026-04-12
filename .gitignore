@@ -7,7 +7,7 @@ models/data/generated_*.csv
 models/data/generated_*.json
 
 # Large model data and training checkpoints
-models/results/
+models/results_intent/
 models/results_slots/
 *.onnx.data
 
@@ -16,3 +16,30 @@ build/
 __pycache__/
 *.pyc
 .venv/
+venv/
+
+# Environment Variables & Secrets
+.env
+llm_server/.env
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Root Binaries
+vulturedb
+db_demo
+db_demo_ml
+db_demo_nlq
+db_engine
+repro_ml
+repro_old
+
+# Logs
+*.log
+
