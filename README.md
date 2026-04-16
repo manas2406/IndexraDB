@@ -71,7 +71,7 @@ flowchart LR
 
 ## 🧠 ML-Architected NLQ Pipeline
 
-VultureDB integrates a sophisticated **Natural Language Query (NLQ)** engine. It uses a **7-Phase ML Pipeline** simulated with advanced heuristics (and ready for ONNX integration).
+VultureDB integrates a sophisticated **Natural Language Query (NLQ)** engine. It uses a custom-trained **ML Pipeline** powered by ONNX models (DistilBERT for intent classification and BERT for entity extraction), served via a high-performance Python microservice.
 
 ```mermaid
 flowchart TD
@@ -132,16 +132,16 @@ classDiagram
 
 ---
 
-## 🤖 Generative AI Integration (Gemini + LangChain)
+## 🤖 Generative AI Integration (Groq + LangChain)
 
-VultureDB now supports a state-of-the-art **Generative AI NLQ** mode (Option 15). This hybrid architecture combines the speed of C++ with the reasoning capabilities of Large Language Models.
+VultureDB now supports a state-of-the-art **Generative AI NLQ** mode (Option 15). This hybrid architecture combines the speed of C++ with the reasoning capabilities of Large Language Models (powered by Groq for ultra-fast inference).
 
 ### Architecture Flow
 
 1.  **C++ Client**: Captures natural language input and serializes the current database schema.
 2.  **Python Microservice**: A FastAPI server hosting a LangChain pipeline.
 3.  **Prompt Engineering**: Dynamically constructs a prompt with schema context and strict JSON output rules.
-4.  **Google Gemini**: The LLM interprets the query (converting complex compound instructions like "Create X then Insert Y" into sequential plans).
+4.  **Groq API**: The LLM interprets the query (converting complex compound instructions like "Create X then Insert Y" into sequential plans).
 5.  **Execution**: The C++ engine parses the returned JSON plan and executes the database operations.
 
 ```mermaid
@@ -157,9 +157,9 @@ flowchart TB
     CPP -->|HTTP POST<br>/nlq| FastAPI
     FastAPI -->|Query + Schema| LangChain
     LangChain -->|Format| Prompt
-    Prompt -->|Context| Gemini[Google Gemini API]
+    Prompt -->|Context| Groq[Groq API (Llama 3)]
     
-    Gemini -->|JSON Plan| LangChain
+    Groq -->|JSON Plan| LangChain
     LangChain -->|JSON Response| FastAPI
     FastAPI -->|JSON List| CPP
     
@@ -167,7 +167,7 @@ flowchart TB
     Parser -->|Vector<Query>| Executor[Execution Engine]
     Executor -->|CRUD Ops| Database[("In-Memory DB")]
     
-    style Gemini fill:#8e76fa,stroke:#333,stroke-width:2px,color:white
+    style Groq fill:#f55036,stroke:#333,stroke-width:2px,color:white
     style CPP fill:#61aec9,stroke:#333,stroke-width:2px,color:white
     style LLM_Service fill:#f0f7ff,stroke:#333,stroke-dasharray: 5 5
 ```
@@ -213,23 +213,31 @@ VultureDB/
 
 ## 🛠️ Build & Run
 
-### Prerequisites
-- C++17 Compiler
-- CMake 3.10+
+### Option A: Docker (Recommended)
+VultureDB is fully containerized. You can spin up both the C++ Database Engine and the Python ML/LLM Server with a single command:
+```bash
+docker compose build
+docker compose run db_engine
+```
 
-### Compilation (CMake)
+### Option B: Manual Build
+**Prerequisites:** C++17 Compiler, CMake 3.10+, and Python 3.12 (for the ML server).
+
+**1. Start the ML Server:**
+```bash
+cd llm_server
+pip install -r requirements.txt
+python3 -m uvicorn app:app --port 8000
+```
+
+**2. Compile & Run the Database:**
 ```bash
 mkdir -p build && cd build
 cmake ..
-make
-```
-
-### Usage
-Run the engine:
-```bash
+make -j4
 ./vulturedb
 ```
-Select **Option 14** for NLQ to talk to your database!
+Select **Option 14 (ONNX ML)** or **Option 15 (Groq LLM)** to talk to your database in natural language!
 
 ---
 
