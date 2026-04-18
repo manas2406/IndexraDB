@@ -12,11 +12,8 @@ file(GLOB SOURCES
     "src/nlq_ml/*.cpp"
 )
 
-# Exclude demo files from the main engine build if they contain main()
-# But wait, main.cpp has main(). 
-# We should separate library and executable or just build the engine.
-# Existing structure has everything in src.
-# Let's filter out demo files for the main engine target
+# Filter out standalone demo files from the main engine build targets
+# to prevent multiple main() definition conflicts.
 list(FILTER SOURCES EXCLUDE REGEX "src/demo.*\\.cpp")
 list(FILTER SOURCES EXCLUDE REGEX "src/repro.*\\.cpp")
 
