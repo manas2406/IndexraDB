@@ -1,5 +1,7 @@
 fastapi
 uvicorn
 langchain
-langchain-google-genai
+langchain-groq
 python-dotenv
+onnxruntime
+transformers
