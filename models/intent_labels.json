@@ -1,0 +1,20 @@
+{
+  "id2label": {
+    "0": "CREATE",
+    "1": "DELETE",
+    "2": "DROP",
+    "3": "INSERT",
+    "4": "JOIN",
+    "5": "SELECT",
+    "6": "UPDATE"
+  },
+  "label2id": {
+    "CREATE": 0,
+    "DELETE": 1,
+    "DROP": 2,
+    "INSERT": 3,
+    "JOIN": 4,
+    "SELECT": 5,
+    "UPDATE": 6
+  }
+}

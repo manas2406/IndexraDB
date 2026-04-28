@@ -1,0 +1,32 @@
+{
+  "id2tag": {
+    "0": "B-AGGREGATION",
+    "1": "B-FIELD",
+    "2": "B-OPERATOR",
+    "3": "B-TABLE",
+    "4": "B-TIME",
+    "5": "B-VALUE",
+    "6": "I-AGGREGATION",
+    "7": "I-FIELD",
+    "8": "I-OPERATOR",
+    "9": "I-TABLE",
+    "10": "I-TIME",
+    "11": "I-VALUE",
+    "12": "O"
+  },
+  "tag2id": {
+    "B-AGGREGATION": 0,
+    "B-FIELD": 1,
+    "B-OPERATOR": 2,
+    "B-TABLE": 3,
+    "B-TIME": 4,
+    "B-VALUE": 5,
+    "I-AGGREGATION": 6,
+    "I-FIELD": 7,
+    "I-OPERATOR": 8,
+    "I-TABLE": 9,
+    "I-TIME": 10,
+    "I-VALUE": 11,
+    "O": 12
+  }
+}
