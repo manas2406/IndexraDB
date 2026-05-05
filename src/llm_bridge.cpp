@@ -92,11 +92,34 @@ string extractString(const string& json, const string& key) {
     size_t pos = json.find(search);
     if (pos == string::npos) return "";
     
-    pos = json.find("\"", pos + search.length()); 
-    if (pos == string::npos) return "";
-    size_t start = pos + 1;
-    size_t end = json.find("\"", start);
-    return json.substr(start, end - start);
+    // Find first non-whitespace character after the colon
+    size_t valStart = pos + search.length();
+    while (valStart < json.length() && (json[valStart] == ' ' || json[valStart] == '\t' || json[valStart] == '\n' || json[valStart] == '\r')) {
+        valStart++;
+    }
+    if (valStart >= json.length()) return "";
+    
+    if (json[valStart] == '"') {
+        // String value
+        size_t start = valStart + 1;
+        size_t end = json.find("\"", start);
+        if (end == string::npos) return "";
+        return json.substr(start, end - start);
+    } else {
+        // Non-string value (number, bool, null, etc.)
+        size_t end = valStart;
+        while (end < json.length() && 
+               json[end] != ',' && 
+               json[end] != '}' && 
+               json[end] != ']' && 
+               json[end] != ' ' && 
+               json[end] != '\n' && 
+               json[end] != '\r' && 
+               json[end] != '\t') {
+            end++;
+        }
+        return json.substr(valStart, end - valStart);
+    }
 }
 
 // Helper to find array objects
@@ -226,29 +249,7 @@ NLQ::Query parseSingleJSONToQuery(const string& json) {
     // Create fields
     q.fields = extractStringArray(json, "fields");
     
-    // Insert values (often parsed from implicit 'value' or args)
-    // NOTE: The original code didn't fully implement 'values' extraction from JSON for 'INSERT'
-    // but the prompt returns 'value' or 'values'? 
-    // The previous error "Table 'student' not found" suggests the CREATE happen correctly?
-    // Wait, the prompt returns `values`? Or `value`?
-    // The previous code had `q.values = extractStringArray(json, "values")` ? 
-    // Looking at the original file provided in Step 16:
-    // It did NOT have q.values extraction! 
-    // And `INSERT` uses `q.values`. 
-    // I need to fix this too. The Prompt says "value", but usually for INSERT it might be a list?
-    // The user query was "insert 1 vaidik 12".
-    // I will add extraction for "value" (as array) just in case the LLM puts it there.
-    // Or I'll stick to what was there if it was working for single inserts.
-    // Wait, previous file content for `parseJSONToQuery` ended at line 191 and DID NOT extract `values`.
-    // But `executor.cpp` uses `q.values` in line 38.
-    // So `parseJSONToQuery` was ALREADY BUGGY for INSERT if it didn't extract values?
-    // Ah, I see `q.action` etc.
-    // Let's look at `executor.cpp`: `if (q.values.size() != t->fields.size())`
-    // So `q.values` MUST be populated.
-    // I will checking the `planner_prompt.txt`... it says "value".
-    // I will try to extract "value" as a string, and if it looks like an array, parse it.
-    // For now, I'll add `q.values = extractStringArray(json, "value");` assuming the LLM puts `["1", "vaidik", "12"]` in "value".
-    
+    // Insert values
     q.values = extractStringArray(json, "value");
     // Also try "values"
     if (q.values.empty()) {
