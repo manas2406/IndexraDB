@@ -11,7 +11,7 @@ void print_table(Table* t) {
 }
 
 int main() {
-    cout << "=== Antigravity DB API Demo ===\n\n";
+    cout << "=== VultureDB API Demo ===\n\n";
 
     Database db;
 

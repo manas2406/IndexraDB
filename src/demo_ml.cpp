@@ -5,7 +5,7 @@
 using namespace std;
 
 int main() {
-    cout << "=== Antigravity DB ML Demo ===\n\n";
+    cout << "=== VultureDB ML Demo ===\n\n";
 
     Database db;
 

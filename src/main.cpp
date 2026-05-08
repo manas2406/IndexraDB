@@ -15,7 +15,7 @@ namespace NLQ {
 }
 
 void printMenu() {
-    cout << "\n=== Antigravity DB (B+ Tree) ===\n";
+    cout << "\n=== VultureDB (B+ Tree) ===\n";
     cout << "1. Create Table\n";
     cout << "2. Insert Record\n";
     cout << "3. Edit Record\n";
@@ -29,8 +29,8 @@ void printMenu() {
     cout << "11. Load Database\n";
     cout << "12. Predict (Linear Regression)\n";
     cout << "13. Cluster (K-Means)\n";
-    cout << "14. Natural Language Query (ML Beta)\n";
-    cout << "15. LLM NLQ (Gemini + LangChain)\n";
+    cout << "14. Natural Language Query (ONNX ML)\n";
+    cout << "15. LLM NLQ (Groq + LangChain)\n";
     cout << "0. Exit\n";
     cout << "Option: ";
 }
@@ -133,10 +133,11 @@ int main() {
             // Using a simple manual JSON builder to avoid complexity
             string payload = "{\"query\": \"" + escapeJSON(queryStr) + "\", \"schema\": " + schema + "}";
             
-            cout << "Thinking (sending to Gemini)...\n";
+            cout << "Thinking (sending to Groq)...\n";
             try {
-                // 3. Call LLM
-                string response = httpPost("http://localhost:8000/nlq", payload);
+                const char* envUrl = getenv("LLM_SERVER_URL");
+                string url = envUrl ? string(envUrl) + "/nlq" : "http://localhost:8000/nlq";
+                string response = httpPost(url, payload);
                 if (response.empty() || response.find("error") != string::npos) {
                     cout << "LLM Error: " << response << "\n";
                     continue;

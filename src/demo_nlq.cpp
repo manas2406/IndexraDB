@@ -6,7 +6,7 @@
 using namespace std;
 
 int main() {
-    cout << "=== Antigravity DB NLQ Demo ===\n\n";
+    cout << "=== VultureDB NLQ Demo ===\n\n";
 
     Database db;
 
