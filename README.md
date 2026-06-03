@@ -1,4 +1,4 @@
-# VultureDB 🦅
+# VultureDB 
 
 > A lightweight, modular, in-memory Database Engine written in C++ from scratch, powered by B+ Tree indexing.
 
